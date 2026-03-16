@@ -134,7 +134,7 @@ def detect_git_repos(directory: Path) -> List[Path]:
 
 
 def get_workspace_worktree_path(
-    workspace_root: Path, workspace_label: str, repo_name: str, label: str
+    workspace_root: Path, workspace_label: str, repo_name: str
 ) -> Path:
     """Get the path for a workspace worktree."""
     workspace_id = hashlib.sha256(str(workspace_root.resolve()).encode()).hexdigest()[
@@ -142,7 +142,7 @@ def get_workspace_worktree_path(
     ]
     workspace_dir = get_data_dir() / "workspaces" / workspace_id / workspace_label
     workspace_dir.mkdir(parents=True, exist_ok=True)
-    return workspace_dir / repo_name / label
+    return workspace_dir / repo_name
 
 
 def get_workspace_session_name(workspace_root: Path, workspace_label: str) -> str:

@@ -97,7 +97,7 @@ def start_workspace_session(
     repos_data = []
     for repo_path, repo_name in zip(repo_paths, repo_names):
         worktree_path = utils.get_workspace_worktree_path(
-            workspace_root, label, repo_name, label
+            workspace_root, label, repo_name
         )
 
         # Check for conflicts
