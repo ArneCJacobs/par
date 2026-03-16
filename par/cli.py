@@ -1,5 +1,6 @@
 # src/par/cli.py
 import importlib.metadata
+from pathlib import Path
 from typing import Annotated, List, Optional
 
 import typer
@@ -221,6 +222,32 @@ def o(
     Use '-' to open the last session you had open.
     """
     core.open_session(label)
+
+
+@app.command()
+def cd(
+    label: Annotated[
+        str,
+        typer.Argument(
+            help="The label of the session or workspace.",
+            autocompletion=get_session_labels,
+        ),
+    ],
+):
+    """
+    Print the root directory path of a session or workspace.
+
+    Designed for shell navigation:
+        cd $(par cd <label>)
+
+    Or add a shell function to your ~/.zshrc / ~/.bashrc:
+        pcd() { cd "$(par cd "$1")" }
+    """
+    session = core._get_session(label)
+    if not session:
+        typer.secho(f"Error: Session '{label}' not found.", fg="red", err=True)
+        raise typer.Exit(1)
+    typer.echo(Path(session["worktree_path"]) / label)
 
 
 @app.command(name="control-center")
